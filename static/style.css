@@ -1,0 +1,55 @@
+body {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  font-family: Arial, sans-serif;
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  padding-top: 40px;
+}
+
+.card, .history {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+.card {
+  width: 380px;
+}
+
+.history {
+  width: 320px;
+  max-height: 520px;
+  overflow-y: auto;
+}
+
+button {
+  width: 100%;
+  margin-top: 15px;
+  padding: 12px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+pre {
+  margin-top: 15px;
+  background: #f4f4f4;
+  padding: 10px;
+  border-radius: 6px;
+  word-break: break-all;
+}
+
+#workers {
+  margin-top: 10px;
+  background: #eef1ff;
+  padding: 10px;
+  border-radius: 6px;
+}

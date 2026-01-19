@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<title>Calculator Distribuit</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="container">
+
+  <div class="card">
+    <h1>🧮 Calculator Distribuit</h1>
+
+    <label>Operație</label>
+    <select id="op">
+      <option value="sum">Sumă</option>
+      <option value="prod">Produs</option>
+      <option value="avg">Medie</option>
+      <option value="min">Minim</option>
+      <option value="max">Maxim</option>
+      <option value="fact">Factorial</option>
+      <option value="pow">Putere</option>
+      <option value="cmmdc">CMMDC</option>
+      <option value="cmmmc">CMMMC</option>
+    </select>
+
+    <label>Numere</label>
+    <input id="nums" placeholder="ex: 1 2 3 4 5">
+
+    <button onclick="calc()">Calculează</button>
+
+    <pre id="out"></pre>
+
+    <div id="workers"></div>
+  </div>
+
+  <div class="history">
+    <h2>📜 Istoric</h2>
+    <ul id="historyList"></ul>
+  </div>
+
+</div>
+
+<script>
+function formatBigNumber(text) {
+  return text.replace(/([-+]?\d*\.?\d+)[eE]\+?(\d+)/g,
+    (_, n, e) => n.replace(".", "") + "0".repeat(e)
+  );
+}
+
+async function calc(){
+  const op = document.getElementById("op").value;
+  const nums = document.getElementById("nums").value;
+  const cmd = op + " " + nums;
+
+  const res = await fetch("/calc", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({command: cmd})
+  });
+
+  const data = await res.json();
+  const final = formatBigNumber(data.final);
+
+  document.getElementById("out").innerText =
+    "Rezultat final: " + final;
+
+  const workersDiv = document.getElementById("workers");
+  workersDiv.innerHTML = "<h3>🔧 Workeri</h3>";
+
+  data.details.forEach(d => {
+    const p = document.createElement("p");
+    p.innerText = d;
+    workersDiv.appendChild(p);
+  });
+
+  const li = document.createElement("li");
+  li.innerHTML = `<strong>${cmd}</strong><br>${final}`;
+  document.getElementById("historyList").prepend(li);
+}
+</script>
+
+</body>
+</html>
